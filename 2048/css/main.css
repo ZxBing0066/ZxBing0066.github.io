@@ -1,0 +1,190 @@
+/*CSS reset*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block
+}
+body {
+	line-height: 1
+}
+ol, ul {
+	list-style: none
+}
+blockquote, q {
+	quotes: none
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0
+}
+/*CSS reset*/
+.stage {
+	width: 480px;
+	height: 480px;
+	padding: 10px;
+	background-color: #DDD;
+	border-radius: 8px;
+	box-shadow: 0px 3px 0px #BBB inset
+}
+.stage .grid {
+	display: inline-block;
+	width: 110px;
+	height: 110px;
+	margin: 5px;
+	border-radius: 5px;
+	float: left;
+	line-height: 110px;
+	font-size: 60px;
+	box-shadow: 0px 3px 0px #CCC;
+	background-color: white
+}
+.num {
+	display: block;
+	width: 110px;
+	height: 110px;
+	border-radius: 5px;
+	background: rgba(191, 207, 108, 0.3);
+	text-align: center;
+	line-height: 110px
+}
+.hidden {
+	display: none
+}
+.bounceIn:before {
+	-webkit-animation: bounceIn 1s .2s ease both;
+}
+@-webkit-keyframes bounceIn {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale(.3)
+	}
+	50% {
+		opacity: 1;
+		-webkit-transform: scale(1.05)
+	}
+	70% {
+		-webkit-transform: scale(.9)
+	}
+	100% {
+		-webkit-transform: scale(1)
+	}
+}
+.flip:before {
+	-webkit-animation: flipY 1s .1s ease both;
+}
+@-webkit-keyframes flipY {
+	0% {
+		-webkit-transform: perspective(400px) rotateY(-180deg);
+		opacity: 1
+	}
+	10% {
+		-webkit-transform: perspective(400px) rotateY(-90deg);
+		opacity: .6
+	}
+	100% {
+		-webkit-transform: perspective(400px) rotateY(0deg);
+		opacity: 1
+	}
+}
+.grid:before {
+	width: 110px;
+	height: 110px;
+	border-radius: 5px;
+	background: rgba(191, 207, 108, 0.3);
+	text-align: center;
+	line-height: 110px;
+}
+.num_2:before, .num_4:before, .num_8:before, .num_16:before, .num_32:before, .num_64:before, .num_128:before, .num_256:before, .num_512:before, .num_1024:before, .num_2048:before, .num_4096:before, .num_8192:before {
+	display: block;
+}
+.num_0:before {
+	content: "";
+	background-color: white;
+	box-shadow: 0px 0px 15px #DDD inset, 0px 3px 0px #CCC;
+}
+.num_2:before {
+	content: "2";
+	background-color: #EAF4F9;
+	box-shadow: 0px 0px 15px #CAE9F7 inset, 0px 3px 0px #CCC;
+}
+.num_4:before {
+	content: "4";
+	background-color: #E0F5FF;
+	box-shadow: 0px 0px 15px #C1EBFF inset, 0px 3px 0px #CCC;
+}
+.num_8:before {
+	content: "8";
+	background-color: #C9EDFF;
+	box-shadow: 0px 0px 15px #96DDFF inset, 0px 3px 0px #CCC;
+}
+.num_16:before {
+	content: "16";
+	background-color: #CCF3F3;
+	box-shadow: 0px 0px 15px #93F2F2 inset, 0px 3px 0px #CCC;
+}
+.num_32:before {
+	content: "32";
+	background-color: #D5EEBC;
+	box-shadow: 0px 0px 15px #C0ED93 inset, 0px 3px 0px #CCC;
+}
+.num_64:before {
+	content: "64";
+	background-color: #E8DBFF;
+	box-shadow: 0px 0px 15px #CDB2FF inset, 0px 3px 0px #CCC;
+}
+.num_128:before {
+	content: "128";
+	background-color: #FBCDDA;
+	box-shadow: 0px 0px 15px #F99FB9 inset, 0px 3px 0px #CCC;
+	font-size: 50px;
+}
+.num_256:before {
+	content: "256";
+	background-color: #FFE5CA;
+	box-shadow: 0px 0px 15px #FFC993 inset, 0px 3px 0px #CCC;
+	font-size: 50px;
+}
+.num_512:before {
+	content: "512";
+	background-color: #FFA200;
+	box-shadow: 0px 0px 15px #FFCD77 inset, 0px 3px 0px #CCC;
+	color: white;
+	font-size: 50px;
+}
+.num_1024:before {
+	content: "1024";
+	background-color: #FFFA87;
+	box-shadow: 0px 0px 15px #FFF547 inset, 0px 3px 0px #CCC;
+	font-size: 40px;
+}
+.num_2048:before {
+	content: "2048";
+	background-color: #333;
+	box-shadow: 0px 0px 15px #555 inset, 0px 3px 0px #CCC;
+	color: white;
+	font-size: 40px;
+}
+.num_4096:before {
+	content: "4096";
+	background-color: #333;
+	box-shadow: 0px 0px 15px #555 inset, 0px 3px 0px #CCC;
+	color: white;
+	font-size: 40px;
+}
+.num_8192:before {
+	content: "8192";
+	background-color: #333;
+	box-shadow: 0px 0px 15px #555 inset, 0px 3px 0px #CCC;
+	color: white;
+	font-size: 40px;
+}
