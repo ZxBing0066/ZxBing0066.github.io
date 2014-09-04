@@ -2,22 +2,11 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=500px, user-scalable=no">
 		<title>2048</title>
-		<!-- 新 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 		<link rel="stylesheet" href="css/main.css">
 	</head>
 	<body data-spy="scroll" data-target="#navbar" data-offset="0">
-		<nav id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-		</nav>
 		<div class="stage">
 			<div class="grid num_0"></div>
 			<div class="grid num_0"></div>
@@ -37,10 +26,8 @@
 			<div class="grid num_0"></div>
 			<div class="clear"></div>
 		</div>
-		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<!-- 引用 underscore JS -->
+		<script src="../libs/underscore.js"></script>
 		<!-- 引用 require JS -->
 		<script data-main="./js/app" src="../libs/require.js"></script>
 	</body>

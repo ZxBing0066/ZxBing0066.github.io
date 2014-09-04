@@ -1,23 +1,28 @@
-define(function() {
-	var zxToucher = {};
-	zxToucher.init = function init() {
-		this.touchstartHandle = bind(this.touchstartHandle, this);
-		this.touchmoveHandle = bind(this.touchmoveHandle, this);
-		this.touchendHandle = bind(this.touchendHandle, this);
+define([], function() {
+	var ZxToucher = {
+		coord: null,
+		enabled: 0,
+		baseDis: 50,
+		handles: {}
+	};
+	ZxToucher.init = function init() {
+		this.touchstartHandle = _.bind(this.touchstartHandle, this);
+		this.touchmoveHandle = _.bind(this.touchmoveHandle, this);
+		this.touchendHandle = _.bind(this.touchendHandle, this);
 		window.addEventListener('touchstart', this.touchstartHandle);
 		window.addEventListener('touchmove', this.touchmoveHandle);
 		window.addEventListener('touchend', this.touchendHandle);
 	}
-	zxToucher.destroy = function destroy() {
+	ZxToucher.destroy = function destroy() {
 		window.removeEventListener('touchstart', this.touchstartHandle);
 		window.removeEventListener('touchmove', this.touchmoveHandle);
 		window.removeEventListener('touchend', this.touchendHandle);
 	}
-	zxToucher.bind = function bind(type, handle) {
+	ZxToucher.bind = function bind(type, handle) {
 		this.handles[type] = this.handles[type] ? this.handles[type] : [];
 		this.handles[type].push(handle);
 	}
-	zxToucher.emit = function emit(type) {
+	ZxToucher.emit = function emit(type) {
 		if (!this.handles[type]) {
 			return;
 		}
@@ -25,7 +30,7 @@ define(function() {
 			this.handles[type][i]();
 		};
 	}
-	zxToucher.touchstartHandle = function touchstartHandle(e) {
+	ZxToucher.touchstartHandle = function touchstartHandle(e) {
 		if (e.targetTouches.length == 1) {
 			this.coord = {
 				x: e.targetTouches[0].pageX,
@@ -38,14 +43,14 @@ define(function() {
 		console.log(e);
 		e.preventDefault();
 	}
-	zxToucher.touchmoveHandle = function touchmoveHandle(e) {
+	ZxToucher.touchmoveHandle = function touchmoveHandle(e) {
 		if (!this.enabled) {
 			return;
 		};
 		console.log(e);
 		e.preventDefault();
 	}
-	zxToucher.touchendHandle = function touchendHandle(e) {
+	ZxToucher.touchendHandle = function touchendHandle(e) {
 		if (!this.enabled) {
 			return;
 		};
@@ -70,5 +75,5 @@ define(function() {
 		console.log(e);
 		e.preventDefault();
 	}
-	return zxToucher;
+	return ZxToucher;
 })
