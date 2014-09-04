@@ -1,5 +1,14 @@
-(function() {
+requirejs.config({
+	baseUrl: '../',
+	paths: {
+		'text': './libs/text',
+		'ZxToucher': './zxlibs/ZxToucher'
+	}
+})
+require(['ZxToucher', 'text!./templates/header.html'], function(a, b) {
+	console.log(a, b);
 	"use strict"
+	$('#navbar').append(b);
 	var stage = document.getElementsByClassName('stage')[0];
 	var movingClock = 0;
 	var randomArr = [2, 2, 4]; // 生成的数字可用列表
@@ -165,7 +174,7 @@
 	 */
 	var keypressAction = function keypressAction(e) {
 		if (movingClock) {
-			
+
 		}
 		// direction: 0 向下 1 向左 2 向上 3 向右
 		// 按键映射表 w a s d
@@ -289,4 +298,4 @@
 	});
 	// 添加键盘监听
 	window.addEventListener('keypress', keypressAction);
-})()
+})
