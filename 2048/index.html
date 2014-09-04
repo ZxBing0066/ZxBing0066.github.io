@@ -2,29 +2,40 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=500px, user-scalable=no">
+		<meta name="viewport" content="width=640px, user-scalable=no">
 		<title>2048</title>
 		<link rel="stylesheet" href="css/main.css">
 	</head>
-	<body data-spy="scroll" data-target="#navbar" data-offset="0">
-		<div class="stage">
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="grid num_0"></div>
-			<div class="clear"></div>
+	<body>
+		<div class="main_container">
+			<div class="info_bar">
+				<h1>2048</h1>
+				<span class="score_area">SCORE:<strong class="score">0</strong></span>
+			</div>
+			<div class="stage">
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="grid num_0"></div>
+				<div class="clear"></div>
+			</div>
+			<div class="items">
+				<span class="item">变</span>
+				<span class="item">消</span>
+				<span class="item">换</span>
+			</div>
 		</div>
 		<!-- 引用 underscore JS -->
 		<script src="../libs/underscore.js"></script>

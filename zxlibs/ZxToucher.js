@@ -40,15 +40,11 @@ define([], function() {
 		} else {
 			this.enabled = 0;
 		}
-		console.log(e);
-		e.preventDefault();
 	}
 	ZxToucher.touchmoveHandle = function touchmoveHandle(e) {
 		if (!this.enabled) {
 			return;
 		};
-		console.log(e);
-		e.preventDefault();
 	}
 	ZxToucher.touchendHandle = function touchendHandle(e) {
 		if (!this.enabled) {
@@ -72,8 +68,6 @@ define([], function() {
 			}
 		}
 		this.enabled = 0;
-		console.log(e);
-		e.preventDefault();
 	}
 	return ZxToucher;
 })
