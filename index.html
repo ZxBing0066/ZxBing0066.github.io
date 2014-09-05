@@ -5,28 +5,48 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>ZxWebSite</title>
-		<!-- 新 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<!-- 可选的Bootstrap主题文件（一般不用引入） -->
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+		<link rel="stylesheet" href="./css/layouts/side-menu.css">
+		<link rel="stylesheet" href="./css/layouts/my.css">
 	</head>
 	<body>
-		<h1>仅供娱乐</h1>
-		<ul>
-			<li>
-				<a href="./2048/">A clone of 2048</a>
-			</li>
-		</ul>
-		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<div id="layout">
+			<!-- Menu toggle -->
+			<a href="#menu" id="menuLink" class="menu-link">
+			<!-- Hamburger icon -->
+			<span></span>
+			</a>
+			<div id="menu">
+				<div class="pure-menu pure-menu-open">
+					<a class="pure-menu-heading" href="#">ZxBing</a>
+					<ul>
+						<li><a href="#">Game</a></li>
+						<li><a href="#">Article</a></li>
+						<!-- <li class="menu-item-divided pure-menu-selected">
+								<a href="#"></a>
+						</li> -->
+						<li><a href="#">About</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="main">
+				<div class="header">
+					<h1>ZxBing</h1>
+					<h2>ZxBing'S simple website</h2>
+				</div>
+				<div class="content">
+					<h2 class="content-subhead">games</h2>
+					<ul>
+						<li>
+							<b><a href="./2048/">A clone of 2048</a></b>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="./js/ui.js"></script>
+		<!-- jQuery文件 -->
 		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 		<!-- 引用 require JS -->
 		<script data-main="./js/app" src="./libs/require.js"></script>
 	</body>

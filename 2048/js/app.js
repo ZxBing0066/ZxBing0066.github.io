@@ -95,6 +95,7 @@ require(['ZxToucher'], function(ZxToucher) {
 		this.grids = stage.getElementsByClassName('grid');
 		this.randomSetBlank();
 		this.randomSetBlank();
+		this.score = 0;
 	}
 	map.randomSetBlank = function randomSetBlank() {
 		var randomIndex = getRandomNum(this.data.length);
@@ -129,6 +130,52 @@ require(['ZxToucher'], function(ZxToucher) {
 			}
 		};
 		return false;
+	}
+	map.itemProbability = {
+		2: 0,
+		4: 0,
+		8: 0,
+		16: 0.0001,
+		32: 0.0002,
+		64: 0.0004,
+		128: 0.0008,
+		256: 0.002,
+		512: 0.005,
+		1024: 0.05,
+		2048: 0.2,
+		4096: 0.5,
+		8192: 0.8
+	}
+	map.items = [{
+		name: '变',
+		num: 0,
+		probability: 30
+	}, {
+		name: '消',
+		num: 0,
+		probability: 10
+	}, {
+		name: '换',
+		num: 0,
+		probability: 10
+	}]
+	map.getProbabilityItem = function getProbabilityItem(items) {
+		var sum = 0;
+		var probabilityArr = [];
+		var randomNum = Math.random();
+		for (var i = 0, l = items.length; i < l; i++) {
+			sum += items[i].probability;
+			probabilityArr.push(items[i].probability);
+		};
+		for (var j = 0, k = probabilityArr.length; j < k - 1; j++) {
+			if (randomNum < probabilityArr[j] / sum) {
+				return j;
+			}
+		};
+		return l;
+	}
+	var getProbability = function getProbability(prob) {
+		return Math.random() < prob;
 	}
 	var getRandomNum = function getRandomNum(num) {
 		return Math.floor(Math.random() * num);

@@ -31,10 +31,9 @@ table {
 /* CSS reset */
 .main_container {
 	width: 640px;
-	height: 800px;
-	margin: -50% auto 0;
+	/* height: 800px; */
+	margin: 0 auto;
 	position: relative;
-	top: 400px;
 }
 .info_bar, .stage, .items {
 	width: 480px;
@@ -264,11 +263,11 @@ table {
 	right: 0;
 }
 .item_change:after {
-	content: "变";
+	content: "å˜";
 }
 .item_destory:after {
-	content: "消"
+	content: "æ¶ˆ"
 }
 .item_exchange:after {
-	content: "换"
+	content: "æ¢"
 }
