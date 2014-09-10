@@ -22,6 +22,11 @@ define([], function() {
 		this.handles[type] = this.handles[type] ? this.handles[type] : [];
 		this.handles[type].push(handle);
 	}
+	ZxToucher.unbind = function unbind (type, handle) {
+		if(this.handles[type]) {
+			
+		}
+	}
 	ZxToucher.emit = function emit(type) {
 		if (!this.handles[type]) {
 			return;
