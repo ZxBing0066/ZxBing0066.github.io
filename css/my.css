@@ -6,3 +6,11 @@ a {
 a:visited {
 	color: #265778; /* block-normal-text-normal */
 }
+
+#menu .pure-menu-selected {
+	color: #fff;
+}
+
+html, button, input, select, textarea {
+	font-family: Arial, "";
+}

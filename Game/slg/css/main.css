@@ -1,0 +1,28 @@
+#canvasContainer {
+	border: 1px solid #8a6;
+	position: relative;
+	margin: 0 auto;
+	width: 1080px;
+	height: 720px;
+	overflow: hidden;
+}
+#canvasContainer canvas {
+	position: absolute;
+	top: 0;
+	display: block;
+}
+#map {
+	z-index: 1;
+}
+#frame {
+	z-index: 2;
+}
+#char {
+	z-index: 3;
+}
+#menu {
+	z-index: 4;
+}
+#ui {
+	z-index: 5;
+}

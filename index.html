@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scaleable=0">
 		<title>ZxWebSite</title>
-		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-		<link rel="stylesheet" href="./css/layouts/side-menu.css">
-		<link rel="stylesheet" href="./css/layouts/my.css">
+		<link rel="stylesheet" href="./css/pure-min.css">
+		<link rel="stylesheet" href="./css/side-menu.css">
+		<link rel="stylesheet" href="./css/my.css">
 	</head>
 	<body>
 		<div id="layout">
@@ -18,36 +18,32 @@
 			</a>
 			<div id="menu">
 				<div class="pure-menu pure-menu-open">
-					<a class="pure-menu-heading" href="#">ZxBing</a>
+					<a class="pure-menu-heading pure-menu-selected" href="#">ZxBing</a>
 					<ul>
-						<li><a href="#">Game</a></li>
-						<li><a href="#">Article</a></li>
-						<!-- <li class="menu-item-divided pure-menu-selected">
-								<a href="#"></a>
-						</li> -->
-						<li><a href="#">About</a></li>
+						<li><a href="./Game/">游戏</a></li>
+						<li><a href="./Interesting/">小玩意</a></li>
+						<li><a href="./Other/">其它项目</a></li>
+						<li class="menu-item-divided"><a href="./Blog/">博客</a></li>
+						<li><a href="./Blog/about/">关于</a></li>
 					</ul>
 				</div>
 			</div>
 			<div id="main">
 				<div class="header">
-					<h1>ZxBing</h1>
-					<h2>ZxBing'S simple website</h2>
+					<h1>ZxBing的小站</h1>
 				</div>
 				<div class="content">
-					<h2 class="content-subhead">games</h2>
+					<h2 class="content-subhead">游戏</h2>
 					<ul>
 						<li>
-							<b><a href="./game/2048/">A clone of 2048</a></b>
+							<b><a href="./Game/2048/">A clone of 2048</a></b>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<script src="./js/ui.js"></script>
 		<!-- jQuery文件 -->
-		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-		<!-- 引用 require JS -->
-		<script data-main="./js/app" src="./libs/require.js"></script>
+		<script src="./libs/jquery-1.11.1.js"></script>
+		<script src="./js/ui.js"></script>
 	</body>
 </html>

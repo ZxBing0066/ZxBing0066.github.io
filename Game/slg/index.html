@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>slg</title>
+		<link rel="stylesheet" href="./css/main.css">
+		<script src='./js/s.js'></script>
+		<style>
+			#canvasContainer {
+				border: 1px solid #8a6;
+				position: relative;
+				margin: 0 auto;
+				width: 1080px;
+				height: 720px;
+				overflow: hidden;
+			}
+			#canvasContainer canvas {
+				position: absolute;
+				top: 0;
+				display: block;
+			}
+			#map {
+				z-index: 1;
+			}
+			#frame {
+				z-index: 2;
+			}
+			#char {
+				z-index: 3;
+			}
+			#menu {
+				z-index: 4;
+			}
+			#ui {
+				z-index: 5;
+			}
+		</style>
+	</head>
+	<body style='margin:0;padding:0;'>
+		<div id="canvasContainer">
+			<canvas id='map'></canvas>
+			<canvas id='frame'></canvas>
+			<canvas id='char'></canvas>
+			<canvas id='menu'></canvas>
+			<div id="menu">
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+					<li class="dropdown-submenu">
+						<a tabindex="-1" href="#">More options</a>
+						<ul class="dropdown-menu">
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<canvas id="ui"></canvas>
+			<script>
+			slg();
+			</script>
+		</div>
+	</body>
+</html>

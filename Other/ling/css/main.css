@@ -1,0 +1,197 @@
+/* * * html5doctor.com Reset Stylesheet v1.6.1 (http://html5doctor.com/html-5-reset-stylesheet/) * Richard Clark (http://richclarkdesign.com) * http://cssreset.com */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+nav ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+a {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+/* change colours to suit your needs */
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: bold;
+}
+del {
+	text-decoration: line-through;
+}
+abbr[title], dfn[title] {
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* change border colour to suit your needs */
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	margin: 1em 0;
+	padding: 0;
+}
+input, select {
+	vertical-align: middle;
+}
+* {
+	font-family: 微软雅黑;
+}
+ul, ol, li {
+	list-style: none;
+}
+html, body {
+	height: 100%;
+}
+#select {
+	width: 20%;
+	float: left;
+}
+#questions {
+	width: 80%;
+	float: left;
+	height: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	background-color: #fff;
+}
+#questions>div {
+	padding: 0 20px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+#select ul li, .choices>span {
+	border-radius: 4px;
+	cursor: pointer;
+	padding: 10px;
+	padding-left: 30px;
+	line-height: 20px;
+	display: block;
+	background-color: #d9edf7;
+	margin: 10px 0;
+	color: #3a87ad;
+}
+#questions h2 {
+	margin: 10px 0;
+	font-family: inherit;
+	font-weight: bold;
+	line-height: 40px;
+	color: inherit;
+	text-rendering: optimizelegibility;
+	text-align: center;
+	font-size: 30px;
+}
+#questions ul li {
+	padding: 10px;
+	margin: 20px 10px;
+	border-radius: 3px;
+	background-color: #fff;
+	border: 1px solid #eee;
+}
+#questions ul li p {
+	line-height: 30px;
+	font-size: 20px;
+}
+#questions .answer {
+	display: none;
+}
+#questions .answer:before {
+	content: '答案:'
+}
+.choices>span.select, #select ul li.select {
+	background-color: #08c;
+	color: #fff;
+}
+#showAnswerBtn, #retestBtn {
+	display: block;
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 6px;
+	color: #fff;
+	background-color: #428bca;
+	border-color: #357ebd;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	background-image: none;
+	border: 1px solid transparent;
+	position: fixed;
+	bottom: 30px;
+	left: 30px;
+}
+#retestBtn {
+	bottom: 80px;
+}
+.wrong {
+	background-color: #f2dede !important;
+	position: relative;
+}
+.right {
+	background-color: #dff0d8 !important;
+	position: relative;
+}
+.error {
+	background-color: #fcf8e3 !important;
+	position: relative;
+}
+.wrong:before, .right:before, .error:before {
+	position: absolute;
+	left: 50%;
+	margin-left: -100px;
+	top: 40%;
+	background: rgba(231, 221, 221, 0.53);
+	width: 200px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+.wrong:before {
+	content: "WRONG";
+	color: red;
+}
+.right:before {
+	content: "RIGHT";
+	color: blue;
+}
+.error:before {
+	content: "ERROR";
+	color: yellow;
+}
