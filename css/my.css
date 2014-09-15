@@ -2,15 +2,17 @@ a {
 	color: #3b8bba; /* block-background-text-normal */
 	text-decoration: none;
 }
-
 a:visited {
 	color: #265778; /* block-normal-text-normal */
 }
-
 #menu .pure-menu-selected {
 	color: #fff;
 }
-
 html, button, input, select, textarea {
-	font-family: Arial, "";
+	font-family: Verdana, "华文行楷";
+}
+
+/* 未完成的项目 */
+.unfinished, .unfinished * {
+	color: #ccc;
 }
