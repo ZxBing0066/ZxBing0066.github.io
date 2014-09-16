@@ -1,0 +1,60 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	list-style-type: none;
+}
+#stage {
+	border: 1px solid #ccc;
+	background: #fff;
+	width: 640px;
+	margin: 20px auto 0;
+	position: relative;
+}
+#stage, #stage * {
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#chessboard td {
+	box-sizing: border-box;
+	width: 80px;
+	height: 80px;
+	border: 1px solid #B6A399;
+	border-spacing: 0;
+}
+.clearfix:after {
+	content: " ";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.hidden {
+	display: none;
+}
+.piece {
+	position: absolute;
+	width: 65px;
+	height: 65px;
+	border: 2.5px solid rgba(35, 2, 3, 0);
+	border-radius: 40px;
+	background: #ccc;
+	text-align: center;
+	line-height: 65px;
+	font-size: 40px;
+	font-family: "隶书";
+}
+.piece.red {
+	color: red;
+}
+.piece.black {
+	color: black;
+}
+.piece.selected {
+	background: rgb(153, 187, 219);
+}
