@@ -93,25 +93,29 @@ ZxGame.continue = function() {
 }
 
 ZxGame.gameMapClickHandle = function(e) {
-	ZxGame.gameMap.addChild(ZxGame.seleteTowerMenu);
 	var x = e.localX;
 	var y = e.localY;
 	var coord = [];
+	var path;
 	coord[0] = x/ZxGame.config.gridW|0;
 	coord[1] = y/ZxGame.config.gridW|0;
-	ZxGame.seleteTowerMenu.x = (0.5+coord[0])*ZxGame.config.gridW;
-	ZxGame.seleteTowerMenu.y = (0.5+coord[1])*ZxGame.config.gridW;
-	ZxGame.seleteTowerMenu.coord = coord;
 	if (ZxGame.gameMap.map[coord[0]][coord[1]]===0) {
 		ZxGame.gameMap.map[coord[0]][coord[1]] = -1;
-		if (ZxGame.gameMap.getPath()==-1) {
+		path = ZxGame.gameMap.getPath();
+		if (path==-1) {
 			ZxGame.gameMap.map[coord[0]][coord[1]] = 0;
 			return;
 		};
+		ZxGame.gameMap.map[coord[0]][coord[1]] = 0;
+		ZxGame.gameMap.addChild(ZxGame.seleteTowerMenu);
+		ZxGame.seleteTowerMenu.x = (0.5+coord[0])*ZxGame.config.gridW;
+		ZxGame.seleteTowerMenu.y = (0.5+coord[1])*ZxGame.config.gridW;
+		ZxGame.seleteTowerMenu.coord = coord;
+		ZxGame.seleteTowerMenu.path = path;
 		// ZxGame.seleteTowerMenu = seleteTowerMenu;
-		ZxGame.path = ZxGame.gameMap.getPath();
-		ZxGame.mapChanged = true;
-		ZxGame.monsters.refreshPath();
+		// ZxGame.path = ZxGame.gameMap.getPath();
+		// ZxGame.mapChanged = true;
+		// ZxGame.monsters.refreshPath();
 	};
 }
 

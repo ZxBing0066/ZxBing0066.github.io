@@ -131,11 +131,19 @@ ZxGame.start = function () {
 		console.log(1);
 	})
 	towerShape1.addEventListener("click", function() {
+		ZxGame.gameMap.map[ZxGame.seleteTowerMenu.coord[0]][ZxGame.seleteTowerMenu.coord[1]] = -1;
+		ZxGame.path = ZxGame.seleteTowerMenu.path;
+		ZxGame.mapChanged = true;
+		ZxGame.monsters.refreshPath();
 		ZxGame.gameMap.removeChild(ZxGame.seleteTowerMenu);
 		ZxGame.createTower(ZxGame.seleteTowerMenu.coord, 0);
 		ZxGame.player.money-=100;
 	})
 	towerShape2.addEventListener("click", function() {
+		ZxGame.gameMap.map[ZxGame.seleteTowerMenu.coord[0]][ZxGame.seleteTowerMenu.coord[1]] = -1;
+		ZxGame.path = ZxGame.seleteTowerMenu.path;
+		ZxGame.mapChanged = true;
+		ZxGame.monsters.refreshPath();
 		ZxGame.gameMap.removeChild(ZxGame.seleteTowerMenu);
 		ZxGame.createTower(ZxGame.seleteTowerMenu.coord, 1);
 		ZxGame.player.money-=100;
