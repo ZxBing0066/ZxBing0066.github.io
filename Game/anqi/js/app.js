@@ -5,7 +5,7 @@ ZxGame.anqi = (function anqi() {
 	anqi.redChessPieces = ['卒', '砲', '马', '車', '象', '士', '将'];
 	anqi.chessPiecesVal = ['0', '1', '2', '3', '4', '5', '6'];
 	anqi.nums = [5, 2, 2, 2, 2, 2, 1];
-	// 总棋子
+	// 总棋子(懒得一个一个写)
 	anqi.allChessPieces = [];
 	(function allChessPiecesSet() {
 		for (var i = 0; i < anqi.blackChessPieces.length; i++) {
@@ -33,56 +33,71 @@ ZxGame.anqi = (function anqi() {
 	 */
 	anqi.init = function init() {
 		anqi.stageDom = $('#stage');
-		anqi.chessboardDom = $('#chessboard');
+		anqi.chessBoardDom = $('#chessboard');
 		anqi.piecesDom = $('#pieces');
-		anqi.piecesDoms = [];
 		anqi.player1 = {
-			color: null
+			color: null,
+			name: "玩家1"
 		}
 		anqi.player2 = {
-			color: null
+			color: null,
+			name: "玩家2"
 		}
 		anqi.colorDecided = 0;
-		anqi.currentPlayer = anqi.player1;
-
-		function initPieces() {
-			var clonedAllChessPieces = anqi.allChessPieces.slice(),
-				randomIndex, pieceDom;
-			anqi.randomedChessPieces = [];
-			for (var i = 0, l = clonedAllChessPieces.length; i < l; i++) {
-				randomIndex = Math.floor(Math.random() * clonedAllChessPieces.length)
-				anqi.randomedChessPieces.push(clonedAllChessPieces[randomIndex]);
-				pieceDom = $('<div></div>');
-				pieceDom.addClass("piece").addClass(clonedAllChessPieces[randomIndex].color);
-				pieceDom.data('val', clonedAllChessPieces[randomIndex].val);
-				pieceDom.data('name', clonedAllChessPieces[randomIndex].name);
-				pieceDom.data('index', i);
-				pieceDom.data('back', 1)
-				pieceDom.data('color', clonedAllChessPieces[randomIndex].color)
-				anqi.piecesDom.append(pieceDom);
-				anqi.piecesDoms.push(pieceDom);
-				clonedAllChessPieces.splice(randomIndex, 1);
-			}
-		}
-		initPieces();
-		for (var i = 0, l = anqi.piecesDoms.length; i < l; i++) {
-			anqi.move(i, {
-				x: i % 8,
-				y: i / 8 | 0
+		anqi.changePlayer(1);
+		anqi.initChessBoard();
+		anqi.initPieces();
+		anqi.initClick();
+	}
+	anqi.initClick = function initClick() {
+		var piecesDoms = $('.piece');
+		piecesDoms.click(function clickHandle(e) {
+			var index = $(e.currentTarget).data('index');
+			var isBack = $(e.currentTarget).data('back');
+			var color = $(e.currentTarget).data('color');
+			isBack ? anqi.turn(index) : (anqi.colorDecided && color == anqi.currentPlayer.color ? anqi.select(index) : null);
+			if (anqi.getSelectedIndex() >= 0) {}
+		})
+	}
+	/**
+	 * 棋盘初始化
+	 */
+	anqi.initChessBoard = function initChessBoard() {
+		this.chessBoardDom.find('tr').each(function(y, trDom) {
+			$(trDom).find('td').each(function(x, tdDom) {
+				$(tdDom).data({
+					x: x,
+					y: y
+				})
 			})
+		})
+	}
+	/**
+	 * 初始化棋子数据(乱序等)
+	 */
+	anqi.initPieces = function initPieces() {
+		var randomIndex, pieceDom, coords = [],
+			dom, chessPiece;
+		anqi.chessPieces = anqi.allChessPieces.slice();
+		for (var i = 0; i < 8; i++) {
+			for (var j = 0; j < 4; j++) {
+				coords.push({
+					x: i,
+					y: j
+				})
+			};
 		};
-
-		function initClick() {
-			var piecesDoms = $('.piece');
-			piecesDoms.click(function clickHandle(e) {
-				var index = $(e.currentTarget).data('index');
-				var isBack = $(e.currentTarget).data('back');
-				var color = $(e.currentTarget).data('color');
-				isBack ? anqi.turn(index) : (anqi.colorDecided && color == anqi.currentPlayer.color ? anqi.select(index) : null);
-				if (anqi.getSelectedIndex() >= 0) {}
-			})
-		}
-		initClick();
+		for (var k = 0, l = anqi.chessPieces.length; k < l; k++) {
+			randomIndex = Math.floor(Math.random() * coords.length);
+			chessPiece = anqi.chessPieces[k];
+			dom = chessPiece.dom = $('<div></div>');
+			dom.addClass("piece", chessPiece.color).data({
+				index: i
+			});
+			anqi.piecesDom.append(dom);
+			anqi.setCoord(k, coords[randomIndex]);
+			coords.splice(randomIndex, 1);
+		};
 	}
 	anqi.config = {
 		gridW: 80,
@@ -91,6 +106,18 @@ ZxGame.anqi = (function anqi() {
 	anqi.select = function select(index) {
 		$('.piece.selected').removeClass('selected');
 		anqi.piecesDoms[index].addClass('selected');
+	}
+	/**
+	 * 设置棋子坐标
+	 * @param {Int} index 棋子索引
+	 * @param {x:0,y;0} coord 棋子坐标
+	 */
+	anqi.setCoord = function setCoord(index, coord) {
+		anqi.chessPieces[index].dom.css({
+			left: coord.x * anqi.config.gridW + 5,
+			top: coord.y * anqi.config.gridH + 5
+		})
+		anqi.chessPieces[index].coord = coord;
 	}
 	anqi.move = function move(index, targetCoord) {
 		anqi.piecesDoms[index].css("left", anqi.config.gridW * targetCoord.x + 5);
@@ -114,8 +141,15 @@ ZxGame.anqi = (function anqi() {
 	anqi.getSelectedIndex = function getSelectedIndex() {
 		return $('.piece.selected').length > 0 ? $('.piece.selected').index() : -1;
 	}
-	anqi.changePlayer = function changePlayer() {
-		anqi.currentPlayer == anqi.player1 ? anqi.currentPlayer = anqi.player2 : anqi.currentPlayer = anqi.player1;
+	/**
+	 * 改变当前操作玩家
+	 */
+	anqi.changePlayer = function changePlayer(playerId) {
+		if (playerId != null) {
+			anqi.currentPlayer = playerId == 1 ? anqi.player1 : anqi.player2;
+		} else {
+			anqi.currentPlayer = anqi.currentPlayer == anqi.player1 ? anqi.player2 : anqi.player1;
+		}
 		$('.piece.selected').removeClass('selected');
 	}
 	anqi.start = function start() {}

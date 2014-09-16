@@ -20,6 +20,10 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+#chessboard {
+	z-index: 100;
+	position: relative;
+}
 #chessboard td {
 	box-sizing: border-box;
 	width: 80px;
