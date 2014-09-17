@@ -295,7 +295,7 @@ ZxGame.anqi = (function anqi() {
 	anqi.eat = function eat(formIndex, toIndex) {
 		var formChessPiece = this.chessPieces[formIndex],
 			toChessPiece = this.chessPieces[toIndex];
-		formChessPiece.dom.css('z-index', 100);
+		formChessPiece.dom.css('z-index', this.curTopIndex++);
 		this.setCoord(formIndex, toChessPiece.coord);
 		toChessPiece.isDead = 1;
 		this.setCoord(toIndex, {
