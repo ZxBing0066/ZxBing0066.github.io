@@ -298,7 +298,7 @@ ZxGame.anqi = (function anqi() {
 		formChessPiece.dom.css('z-index', 100);
 		this.setCoord(formIndex, toChessPiece.coord);
 		toChessPiece.isDead = 1;
-		toChessPiece.setCoord({
+		this.setCoord(toIndex, {
 			x: -1,
 			y: -1
 		});
