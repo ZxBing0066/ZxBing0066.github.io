@@ -41,7 +41,8 @@ ZxGame.anqi = (function anqi() {
 		this.stageDom = $('#stage');
 		this.chessBoardDom = $('#chessboard');
 		this.piecesDom = $('#pieces');
-		this.tipAreaDom = $('#tip_area')
+		this.tipAreaDom = $('#tip_area');
+		this.curTopIndex = 2;
 		this.player1 = {
 			color: null,
 			name: '玩家1'
@@ -75,6 +76,7 @@ ZxGame.anqi = (function anqi() {
 	anqi.initPieces = function initPieces() {
 		var randomIndex, pieceDom, dom, chessPiece, coords = [];
 		this.chessPieces = this.allChessPieces.slice();
+		this.piecesDom.html('');
 		for (var i = 0; i < 8; i++) {
 			for (var j = 0; j < 4; j++) {
 				coords.push({
@@ -101,6 +103,7 @@ ZxGame.anqi = (function anqi() {
 	 */
 	anqi.initClick = function initClick() {
 		var self = this;
+		self.chessBoardDom.unbind();
 		self.chessBoardDom.click(function(e) {
 			var clickedChessPiece, clickedChessPieceIndex, selectedChessPiece;
 			//没点到棋盘
@@ -111,15 +114,6 @@ ZxGame.anqi = (function anqi() {
 				x: $(e.target).data('x'),
 				y: $(e.target).data('y')
 			})
-			//点击区域没有棋子
-			if (clickedChessPieceIndex == -1) {
-				return;
-			}
-			clickedChessPiece = self.chessPieces[clickedChessPieceIndex];
-			//点击的棋子异常
-			if (clickedChessPiece.isDead) {
-				return;
-			}
 			//存在被选中棋子
 			if (self.selectedIndex != null) {
 				selectedChessPiece = self.chessPieces[self.selectedIndex];
@@ -128,6 +122,22 @@ ZxGame.anqi = (function anqi() {
 					console.warn(selectedChessPiece, self.currentPlayer, "异常");
 					return;
 				}
+				//点击区域没有棋子
+				if (clickedChessPieceIndex == -1) {
+					if (self._isBeside2(self.selectedIndex, {
+						x: $(e.target).data('x'),
+						y: $(e.target).data('y')
+					})) {
+						self.setCoord(self.selectedIndex, {
+							x: $(e.target).data('x'),
+							y: $(e.target).data('y')
+						});
+						self.changePlayer();
+					}
+					self.removeSelect();
+					return;
+				}
+				clickedChessPiece = self.chessPieces[clickedChessPieceIndex];
 				// 点击棋子未翻转
 				if (clickedChessPiece.isBack) {
 					self.removeSelect();
@@ -141,10 +151,20 @@ ZxGame.anqi = (function anqi() {
 					//点击对方棋子 
 					if (self.attack(self.selectedIndex, clickedChessPieceIndex)) {
 						// 攻击成功
+						self.removeSelect();
 						self.changePlayer();
 						return;
 					}
 				}
+			}
+			//点击区域没有棋子
+			if (clickedChessPieceIndex == -1) {
+				return;
+			}
+			clickedChessPiece = self.chessPieces[clickedChessPieceIndex];
+			//点击的棋子异常
+			if (clickedChessPiece.isDead) {
+				return;
 			}
 			if (clickedChessPiece.isBack) {
 				// 点击未翻转棋子
@@ -230,26 +250,58 @@ ZxGame.anqi = (function anqi() {
 			anqi.currentPlayer = anqi.currentPlayer == anqi.player1 ? anqi.player2 : anqi.player1;
 		}
 		$('.piece.selected').removeClass('selected');
-		this.tipAreaDom.text('当前玩家为' + this.currentPlayer.name);
+		this.tipAreaDom.text('当前玩家为:' + this.currentPlayer.name + (this.colorDecided ? '  ' + this.currentPlayer.color : ''));
 	}
+	/**
+	 * 攻击操作
+	 * @param  {Int} formIndex 发起棋子索引
+	 * @param  {Int} toIndex   被攻击棋子索引
+	 * @return {[type]}           [description]
+	 */
 	anqi.attack = function attack(formIndex, toIndex) {
 		var formChessPiece = this.chessPieces[formIndex],
 			toChessPiece = this.chessPieces[toIndex];
+		if (formChessPiece.isDead) {
+			console.warn(formIndex, toIndex, "异常");
+			return 0;
+		}
 		if (formChessPiece.val == 1) {
 			if (this._haveAChessAmong(formIndex, toIndex)) {
-
+				this.eat(formIndex, toIndex);
+				return 1;
+			}
+		} else {
+			if (this._isBeside(formIndex, toIndex)) {
+				if (formChessPiece.val == 6 && toChessPiece.val == 0) {
+					return 0;
+				}
+				if (formChessPiece.val == 0 && toChessPiece.val == 6) {
+					this.eat(formIndex, toIndex);
+					return 1;
+				};
+				if (formChessPiece.val >= toChessPiece.val) {
+					this.eat(formIndex, toIndex);
+					return 1;
+				}
 			}
 		}
+		return 0;
 	}
+	/**
+	 * 吃子
+	 * @param  {Int} formIndex 吃的棋子索引
+	 * @param  {Int} toIndex   被吃的棋子索引
+	 */
 	anqi.eat = function eat(formIndex, toIndex) {
 		var formChessPiece = this.chessPieces[formIndex],
 			toChessPiece = this.chessPieces[toIndex];
-		this.setCoord(formIndex, toIndex.coord);
+		formChessPiece.dom.css('z-index', 100);
+		this.setCoord(formIndex, toChessPiece.coord);
 		toChessPiece.isDead = 1;
-		toChessPiece.coord = {
+		toChessPiece.setCoord({
 			x: -1,
 			y: -1
-		};
+		});
 		toChessPiece.dom.addClass('hidden');
 	}
 	/**
@@ -264,8 +316,18 @@ ZxGame.anqi = (function anqi() {
 			console.warn(index, targetIndex, "异常")
 		}
 		var chessPiece = this.chessPieces[index],
-			targetChessPiece = this.chessPiece[targetIndex];
-		if ((chessPiece.x == targetChessPiece.x && Math.abs(chessPiece.y - targetChessPiece.y) == 1) || (chessPiece.y == targetChessPiece.y && Math.abs(chessPiece.x - targetChessPiece.x) == 1)) {
+			coord = chessPiece.coord,
+			targetChessPiece = this.chessPieces[targetIndex],
+			targetCoord = targetChessPiece.coord;
+		if ((coord.x == targetCoord.x && Math.abs(coord.y - targetCoord.y) == 1) || (coord.y == targetCoord.y && Math.abs(coord.x - targetCoord.x) == 1)) {
+			return 1;
+		}
+		return 0;
+	}
+	anqi._isBeside2 = function _isBeside(index, targetCoord) {
+		var chessPiece = this.chessPieces[index],
+			coord = chessPiece.coord;
+		if ((coord.x == targetCoord.x && Math.abs(coord.y - targetCoord.y) == 1) || (coord.y == targetCoord.y && Math.abs(coord.x - targetCoord.x) == 1)) {
 			return 1;
 		}
 		return 0;
@@ -282,15 +344,17 @@ ZxGame.anqi = (function anqi() {
 			console.warn(index, targetIndex, "异常")
 		}
 		var chessPiece = this.chessPieces[index],
+			coord = chessPiece.coord,
 			targetChessPiece = this.chessPieces[targetIndex],
+			targetCoord = targetChessPiece.coord,
 			min, max, index, totalNum;
-		if (chessPiece.x == targetChessPiece.x) {
+		if (coord.x == targetCoord.x) {
 			totalNum = 0;
-			min = Math.min(chessPiece.coord.y, targetChessPiece.coord.y);
-			max = Math.max(chessPiece.coord.y, targetChessPiece.coord.y);
+			min = Math.min(coord.y, targetCoord.y);
+			max = Math.max(coord.y, targetCoord.y);
 			for (var i = min + 1; i < max; i++) {
 				index = this.getChessPiecesIndexByCoord({
-					x: chessPiece.coord.x,
+					x: coord.x,
 					y: i
 				})
 				if (index >= 0 && !this.chessPieces[index].isDead) {
@@ -298,14 +362,14 @@ ZxGame.anqi = (function anqi() {
 				}
 			};
 			return totalNum == 1 ? 1 : 0;
-		} else if (chessPiece.coord.y == targetChessPiece.coord.y) {
+		} else if (coord.y == targetCoord.y) {
 			totalNum = 0;
-			min = Math.min(chessPiece.coord.x, targetChessPiece.coord.x);
-			max = Math.max(chessPiece.coord.x, targetChessPiece.coord.x);
+			min = Math.min(coord.x, targetCoord.x);
+			max = Math.max(coord.x, targetCoord.x);
 			for (var i = min + 1; i < max; i++) {
 				index = this.getChessPiecesIndexByCoord({
 					x: i,
-					y: chessPiece.coord.y
+					y: coord.y
 				})
 				if (index >= 0 && !this.chessPieces[index].isDead) {
 					totalNum++;
