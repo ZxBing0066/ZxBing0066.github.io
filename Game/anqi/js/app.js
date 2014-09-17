@@ -5,11 +5,17 @@ ZxGame.anqi = (function anqi() {
 	anqi.redChessPieces = ['卒', '砲', '马', '車', '象', '士', '将'];
 	anqi.chessPiecesVal = ['0', '1', '2', '3', '4', '5', '6'];
 	anqi.nums = [5, 2, 2, 2, 2, 2, 1];
+	anqi.config = {
+		gridW: 80,
+		gridH: 80,
+		totalNum: 32
+	}
 	// 总棋子(懒得一个一个写)
 	anqi.allChessPieces = [];
 	(function allChessPiecesSet() {
-		for (var i = 0; i < anqi.blackChessPieces.length; i++) {
-			for (var j = 0; j < anqi.nums[i]; j++) {
+		var i, j, l;
+		for (i = 0, l = anqi.blackChessPieces.length; i < l; i++) {
+			for (j = 0; j < anqi.nums[i]; j++) {
 				anqi.allChessPieces.push({
 					name: anqi.blackChessPieces[i],
 					color: 'black',
@@ -17,8 +23,8 @@ ZxGame.anqi = (function anqi() {
 				});
 			};
 		};
-		for (var i = 0; i < anqi.redChessPieces.length; i++) {
-			for (var j = 0; j < anqi.nums[i]; j++) {
+		for (i = 0, l = anqi.redChessPieces.length; i < l; i++) {
+			for (j = 0; j < anqi.nums[i]; j++) {
 				anqi.allChessPieces.push({
 					name: anqi.redChessPieces[i],
 					color: 'red',
@@ -32,32 +38,23 @@ ZxGame.anqi = (function anqi() {
 	 * 初始化
 	 */
 	anqi.init = function init() {
-		anqi.stageDom = $('#stage');
-		anqi.chessBoardDom = $('#chessboard');
-		anqi.piecesDom = $('#pieces');
-		anqi.player1 = {
+		this.stageDom = $('#stage');
+		this.chessBoardDom = $('#chessboard');
+		this.piecesDom = $('#pieces');
+		this.tipAreaDom = $('#tip_area')
+		this.player1 = {
 			color: null,
-			name: "玩家1"
+			name: '玩家1'
 		}
-		anqi.player2 = {
+		this.player2 = {
 			color: null,
-			name: "玩家2"
+			name: '玩家2'
 		}
-		anqi.colorDecided = 0;
-		anqi.changePlayer(1);
-		anqi.initChessBoard();
-		anqi.initPieces();
-		anqi.initClick();
-	}
-	anqi.initClick = function initClick() {
-		var piecesDoms = $('.piece');
-		piecesDoms.click(function clickHandle(e) {
-			var index = $(e.currentTarget).data('index');
-			var isBack = $(e.currentTarget).data('back');
-			var color = $(e.currentTarget).data('color');
-			isBack ? anqi.turn(index) : (anqi.colorDecided && color == anqi.currentPlayer.color ? anqi.select(index) : null);
-			if (anqi.getSelectedIndex() >= 0) {}
-		})
+		this.colorDecided = 0;
+		this.changePlayer(1);
+		this.initChessBoard();
+		this.initPieces();
+		this.initClick();
 	}
 	/**
 	 * 棋盘初始化
@@ -76,9 +73,8 @@ ZxGame.anqi = (function anqi() {
 	 * 初始化棋子数据(乱序等)
 	 */
 	anqi.initPieces = function initPieces() {
-		var randomIndex, pieceDom, coords = [],
-			dom, chessPiece;
-		anqi.chessPieces = anqi.allChessPieces.slice();
+		var randomIndex, pieceDom, dom, chessPiece, coords = [];
+		this.chessPieces = this.allChessPieces.slice();
 		for (var i = 0; i < 8; i++) {
 			for (var j = 0; j < 4; j++) {
 				coords.push({
@@ -87,25 +83,112 @@ ZxGame.anqi = (function anqi() {
 				})
 			};
 		};
-		for (var k = 0, l = anqi.chessPieces.length; k < l; k++) {
+		for (var k = 0, l = this.chessPieces.length; k < l; k++) {
 			randomIndex = Math.floor(Math.random() * coords.length);
-			chessPiece = anqi.chessPieces[k];
+			chessPiece = this.chessPieces[k];
+			chessPiece.isBack = 1;
 			dom = chessPiece.dom = $('<div></div>');
-			dom.addClass("piece", chessPiece.color).data({
+			dom.addClass('piece ' + chessPiece.color).data({
 				index: i
 			});
-			anqi.piecesDom.append(dom);
-			anqi.setCoord(k, coords[randomIndex]);
+			this.piecesDom.append(dom);
+			this.setCoord(k, coords[randomIndex]);
 			coords.splice(randomIndex, 1);
 		};
 	}
-	anqi.config = {
-		gridW: 80,
-		gridH: 80
+	/**
+	 * 初始化点击操作逻辑
+	 */
+	anqi.initClick = function initClick() {
+		var self = this;
+		self.chessBoardDom.click(function(e) {
+			var clickedChessPiece, clickedChessPieceIndex, selectedChessPiece;
+			//没点到棋盘
+			if ($(e.target).data('x') == null) {
+				return;
+			}
+			clickedChessPieceIndex = self.getChessPiecesIndexByCoord({
+				x: $(e.target).data('x'),
+				y: $(e.target).data('y')
+			})
+			//点击区域没有棋子
+			if (clickedChessPieceIndex == -1) {
+				return;
+			}
+			clickedChessPiece = self.chessPieces[clickedChessPieceIndex];
+			//点击的棋子异常
+			if (clickedChessPiece.isDead) {
+				return;
+			}
+			//存在被选中棋子
+			if (self.selectedIndex != null) {
+				selectedChessPiece = self.chessPieces[self.selectedIndex];
+				//异常情况
+				if (selectedChessPiece.color != self.currentPlayer.color || selectedChessPiece.isDead || !self.colorDecided) {
+					console.warn(selectedChessPiece, self.currentPlayer, "异常");
+					return;
+				}
+				// 点击棋子未翻转
+				if (clickedChessPiece.isBack) {
+					self.removeSelect();
+					return;
+				}
+				if (self.currentPlayer.color == clickedChessPiece.color) {
+					//点击自己棋子
+					self.select(clickedChessPieceIndex);
+					return;
+				} else {
+					//点击对方棋子 
+					if (self.attack(self.selectedIndex, clickedChessPieceIndex)) {
+						// 攻击成功
+						self.changePlayer();
+						return;
+					}
+				}
+			}
+			if (clickedChessPiece.isBack) {
+				// 点击未翻转棋子
+				self.turn(clickedChessPieceIndex);
+				self.changePlayer();
+			} else if (self.colorDecided && clickedChessPiece.color == self.currentPlayer.color) {
+				// 选中自己棋子
+				self.select(clickedChessPieceIndex);
+			}
+		})
 	}
+	/**
+	 * 通过棋盘坐标获取当前坐标棋子索引
+	 * @param  {x:0,y:0} coord 棋盘坐标
+	 * @return {Int} 当前坐标中棋子的索引
+	 */
+	anqi.getChessPiecesIndexByCoord = function getChessPiecesIndexByCoord(coord) {
+		for (var i = 0; i < this.chessPieces.length; i++) {
+			if (this.chessPieces[i].coord.x == coord.x && this.chessPieces[i].coord.y == coord.y) {
+				return i;
+			}
+		};
+		return -1
+	}
+	/**
+	 * 选择棋子
+	 * @param  {Int} index 被选择的棋子的索引
+	 */
 	anqi.select = function select(index) {
-		$('.piece.selected').removeClass('selected');
-		anqi.piecesDoms[index].addClass('selected');
+		if (this.selectedIndex == index) {
+			return;
+		}
+		this.removeSelect();
+		this.chessPieces[index].dom.addClass('selected');
+		this.selectedIndex = index;
+	}
+	/**
+	 * 去除棋子被选中状态
+	 */
+	anqi.removeSelect = function removeSelect() {
+		if (this.selectedIndex != null) {
+			this.chessPieces[this.selectedIndex].dom.removeClass('selected');
+			this.selectedIndex = null;
+		}
 	}
 	/**
 	 * 设置棋子坐标
@@ -113,33 +196,29 @@ ZxGame.anqi = (function anqi() {
 	 * @param {x:0,y;0} coord 棋子坐标
 	 */
 	anqi.setCoord = function setCoord(index, coord) {
-		anqi.chessPieces[index].dom.css({
-			left: coord.x * anqi.config.gridW + 5,
-			top: coord.y * anqi.config.gridH + 5
+		this.chessPieces[index].dom.css({
+			left: coord.x * this.config.gridW + 5,
+			top: coord.y * this.config.gridH + 5
 		})
-		anqi.chessPieces[index].coord = coord;
+		this.chessPieces[index].coord = coord;
 	}
-	anqi.move = function move(index, targetCoord) {
-		anqi.piecesDoms[index].css("left", anqi.config.gridW * targetCoord.x + 5);
-		anqi.piecesDoms[index].css("top", anqi.config.gridH * targetCoord.y + 5);
-	}
+	anqi.move = function move(index, targetCoord) {}
+	/**
+	 * 背面状态翻转
+	 * @param  {Int} index 翻转棋子的索引
+	 */
 	anqi.turn = function turn(index) {
-		anqi.piecesDoms[index].text(anqi.piecesDoms[index].data('name')).data('back', 0);
-		if (!anqi.colorDecided) {
-			var color = anqi.piecesDoms[index].data('color');
-			if (anqi.currentPlayer == anqi.player1) {
-				anqi.player1.color = color;
-			} else if (anqi.player1.color == color) {
-				anqi.player1.color = null
-			} else {
-				anqi.player2.color = color;
+		var chessPiece = this.chessPieces[index];
+		chessPiece.isBack = 0;
+		chessPiece.dom.text(chessPiece.name);
+		if (!this.colorDecided) {
+			if (this.currentPlayer == this.player1) {
+				this.player1.color = chessPiece.color;
+			} else if (this.player1.color != chessPiece.color) {
+				this.player2.color = chessPiece.color;
 				anqi.colorDecided = 1;
 			}
 		}
-		anqi.changePlayer();
-	}
-	anqi.getSelectedIndex = function getSelectedIndex() {
-		return $('.piece.selected').length > 0 ? $('.piece.selected').index() : -1;
 	}
 	/**
 	 * 改变当前操作玩家
@@ -151,14 +230,97 @@ ZxGame.anqi = (function anqi() {
 			anqi.currentPlayer = anqi.currentPlayer == anqi.player1 ? anqi.player2 : anqi.player1;
 		}
 		$('.piece.selected').removeClass('selected');
+		this.tipAreaDom.text('当前玩家为' + this.currentPlayer.name);
 	}
-	anqi.start = function start() {}
+	anqi.attack = function attack(formIndex, toIndex) {
+		var formChessPiece = this.chessPieces[formIndex],
+			toChessPiece = this.chessPieces[toIndex];
+		if (formChessPiece.val == 1) {
+			if (this._haveAChessAmong(formIndex, toIndex)) {
+
+			}
+		}
+	}
+	anqi.eat = function eat(formIndex, toIndex) {
+		var formChessPiece = this.chessPieces[formIndex],
+			toChessPiece = this.chessPieces[toIndex];
+		this.setCoord(formIndex, toIndex.coord);
+		toChessPiece.isDead = 1;
+		toChessPiece.coord = {
+			x: -1,
+			y: -1
+		};
+		toChessPiece.dom.addClass('hidden');
+	}
+	/**
+	 * 判断两个棋子是否相邻
+	 * @param  {Int}  index       比较的棋子1
+	 * @param  {Int}  targetIndex 比较的棋子2
+	 * @return {Boolean}             是否相邻
+	 */
+	anqi._isBeside = function _isBeside(index, targetIndex) {
+		// 异常情况
+		if (index == targetIndex || index == null || targetIndex == null || index < 0 || targetIndex < 0 || index > this.config.totalNum - 1 || targetIndex > this.config.totalNum - 1) {
+			console.warn(index, targetIndex, "异常")
+		}
+		var chessPiece = this.chessPieces[index],
+			targetChessPiece = this.chessPiece[targetIndex];
+		if ((chessPiece.x == targetChessPiece.x && Math.abs(chessPiece.y - targetChessPiece.y) == 1) || (chessPiece.y == targetChessPiece.y && Math.abs(chessPiece.x - targetChessPiece.x) == 1)) {
+			return 1;
+		}
+		return 0;
+	}
+	/**
+	 * 两个棋子中间夹着一个用于炮
+	 * @param  {Int} index       棋子1的索引
+	 * @param  {Int} targetIndex 棋子2的索引
+	 * @return {Boolean}             是否夹着
+	 */
+	anqi._haveAChessAmong = function _haveAChessAmong(index, targetIndex) {
+		// 异常情况
+		if (index == targetIndex || index == null || targetIndex == null || index < 0 || targetIndex < 0 || index > this.config.totalNum - 1 || targetIndex > this.config.totalNum - 1) {
+			console.warn(index, targetIndex, "异常")
+		}
+		var chessPiece = this.chessPieces[index],
+			targetChessPiece = this.chessPieces[targetIndex],
+			min, max, index, totalNum;
+		if (chessPiece.x == targetChessPiece.x) {
+			totalNum = 0;
+			min = Math.min(chessPiece.coord.y, targetChessPiece.coord.y);
+			max = Math.max(chessPiece.coord.y, targetChessPiece.coord.y);
+			for (var i = min + 1; i < max; i++) {
+				index = this.getChessPiecesIndexByCoord({
+					x: chessPiece.coord.x,
+					y: i
+				})
+				if (index >= 0 && !this.chessPieces[index].isDead) {
+					totalNum++;
+				}
+			};
+			return totalNum == 1 ? 1 : 0;
+		} else if (chessPiece.coord.y == targetChessPiece.coord.y) {
+			totalNum = 0;
+			min = Math.min(chessPiece.coord.x, targetChessPiece.coord.x);
+			max = Math.max(chessPiece.coord.x, targetChessPiece.coord.x);
+			for (var i = min + 1; i < max; i++) {
+				index = this.getChessPiecesIndexByCoord({
+					x: i,
+					y: chessPiece.coord.y
+				})
+				if (index >= 0 && !this.chessPieces[index].isDead) {
+					totalNum++;
+				}
+			};
+			return totalNum == 1 ? 1 : 0;
+		}
+		return 0;
+	}
+	/**
+	 * 游戏开始
+	 */
+	anqi.start = function start() {
+		this.init();
+	}
 	return anqi;
 })()
-ZxGame.anqi.init();
 ZxGame.anqi.start();
-/**
- * 棋子乱序
- * 点击事件
- *
- */

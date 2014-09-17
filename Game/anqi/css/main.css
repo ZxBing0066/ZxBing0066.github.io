@@ -52,6 +52,11 @@
 	line-height: 65px;
 	font-size: 40px;
 	font-family: "隶书";
+	top: 5px;
+	left: 5px;
+	-webkit-transition: left 1.0s, top 1.0s;
+	-o-transition: left 1.0s, top 1.0s;
+	transition: left 1.0s, top 1.0s;
 }
 .piece.red {
 	color: red;
