@@ -20,6 +20,12 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+#pieces {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
 #chessboard {
 	z-index: 100;
 	position: relative;
