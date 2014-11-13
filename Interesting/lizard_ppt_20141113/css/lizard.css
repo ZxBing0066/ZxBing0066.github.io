@@ -1,0 +1,19 @@
+.file-setting{
+    color: yellow;
+}
+#incallback,#outcallback{
+    margin-top:10px;
+    background-color: rgba(0,0,0,.5);
+}
+.code_container_h {
+	height: auto;
+}
+.code_container_h300 {
+	height: 300px;
+}
+.code_container_h500 {
+	height: 500px;
+}
+.code_container_h800 {
+	height: 800px;
+}
