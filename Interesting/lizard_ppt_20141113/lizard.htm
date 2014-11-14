@@ -19,20 +19,20 @@
     <slides id="container">
         <slide class="slide" data-transition="zoomin"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>Lizard 分享</h1>
-<h2>Lizard 中的cModel&amp;cStore</h2>
+<h2><code>Lizard</code> 中的<code>cModel</code>&amp;<code>cStore</code></h2>
 <p><small>演讲者: 王兵兵</small></p>
 <footer><small>Power by <a href="https://github.com/ksky521/nodePPT" target="_blank">nodeppt</a></small></footer>
 </article></section></slide>
 <slide class="slide" data-transition="horizontal3d"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>cModel</h1>
-<p>cModel类中封装了一系列的ajax请求的常用方法.</p>
+<p><code>cModel</code>类中封装了一系列的<em><code>ajax</code></em>请求的常用方法.</p>
 <p>主要用于继承,不会单独使用.</p>
 
 </article></section></slide>
 <slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
 <h2>cModel中的一些基本参数</h2>
-<pre class="code_container_h500"><code class="javascript">
-/**
+<pre class="code_container_h500">
+<code class="javascript">/**
 * {Boolean} 可覆盖，提交参数是否加入head
 */
 this.usehead = true;
@@ -57,12 +57,13 @@ this.param = {};
 
 // 协议
 this.protocol = "http";
-</code></pre>
+</code>
+</pre>
 </article></section></slide>
 <slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
-<h2>cModel中的一些方法</h2>
-<pre class="code_container_h500"><code class="javascript">
-setHead: function(head) {
+<h2>cModel中的一些常用方法</h2>
+<pre class="code_container_h500">
+<code class="javascript">setHead: function(head) {
   if (!head instanceof AbstractStore) {
     throw 'Set head is not a store';
   }
@@ -135,48 +136,25 @@ buildurl: function() {
     return this.protocol + '://' + this.baseurl.domain + '/' + this.baseurl.path + (typeof this.url === 'function' ? this.url() : this.url);
   }
 },
-
+<!-- 后面细说 -->
 excute: function(onComplete, onError, ajaxOnly, scope, onAbort) {
 
-  var params = _.clone(this.getParam() || {});
-
-  //验证错误码，并且设置新的auth
-  this.pushValidates(function(data) {
-    var curhead = this.head.get();
-    //兼容soa2.0 和 restful api
-    var rsphead = this._getResponseHead(data);
-    /* if (this.contentType !== AbstractModel.CONTENT_TYPE_JSONP && this.usehead && rsphead.auth && rsphead.auth !== curhead.auth) {
-         this.head.setAuth(rsphead.auth);
-     }*/
-    return rsphead.success;
-    //        var head = data.head;
-    //        if (this.contentType !== AbstractModel.CONTENT_TYPE_JSONP && this.usehead && head.auth && head.auth !== curhead.auth) {
-    //          this.head.setAuth(head.auth);
-    //        }
-    //        if (head && head.errcode === 0) {
-    //          return true;
-    //        } else {
-    //          return false;
-    //        }
-  });
 }
-</code></pre>
+</code>
+</pre>
 </article></section></slide>
 <slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
 <h2>继承cModel</h2>
-<ul class="fadeIn">
-<li>定义一个新的model类</li>
-</ul>
-<pre class="code_container_h fadeIn"><code class="javascript">
-define(["cModel"], function(cModel) {
+<h3>定义一个新的<code>model</code>类</h3>
+<pre class="code_container_h">
+<code class="javascript">define(["cModel"], function(cModel) {
 })
-</code></pre>
+</code>
+</pre>
 
-<ul class="fadeIn">
-<li>继承&amp;扩展cModel</li>
-</ul>
-<pre class="code_container_h300 fadeIn"><code class="javascript">
-var _GetWayModel = new cBase.Class(cModel, {
+<h3>继承&amp;扩展<code>cModel</code></h3>
+<pre class="code_container_h300">
+<code class="javascript">var _GetWayModel = new cBase.Class(cModel, {
     __propertys__: function() {
         var urlinfo = {
             test: {
@@ -218,104 +196,40 @@ var _GetWayModel = new cBase.Class(cModel, {
         }, false, self);
     }
 });
-</code></pre>
+</code>
+</pre>
 </article></section></slide>
 <slide class="slide" data-transition="horizontal3d"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>cStore</h1>
-<p>cStore类中封装了一系列操作localStorage的常用方法.</p>
+<p><code>cStore</code>类中封装了一系列操作<em><code>localStorage</code></em>的常用方法.</p>
+
+</article></section></slide>
+<slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
+<h2>localStorage</h2>
+<p><code>localStorage</code>是一个<code>HTML5</code>中提供的新的没有时间限制的客户端存储数据的方法.</p>
+<p>H5还提供了<code>sessionStorage</code>用于对<code>session</code>进行数据存储.</p>
+<p>在此之前这些都是用<code>cookie</code>来完成的,但是<code>cookie</code>有些局限性,如不适合大量数据的存储,效率不高等~</p>
+<p>使用<code>localStorage</code>可以避免<code>cookie</code>的这些缺陷.</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><code>cStore</code>中的一些基本参数</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><code>cStore</code>中的一些常用方法</h2>
 
 </article></section></slide>
 <slide class="slide" data-transition="horizontal3d"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>cStore+cModel</h1>
-<p>使用cStore来实现cModel的接口缓存</p>
+<p>使用<code>cStore</code>来实现<code>cModel</code>的接口缓存</p>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
-<h2>excute函数</h2>
-<pre><code class="javascript code_container_h500">
-/**
-*  取model数据
-*  @param {Function} onComplete 取完的回调函
-*  传入的第一个参数为model的数第二个数据为元数据，元数据为ajax下发时的ServerCode,Message等数
-*  @param {Function} onError 发生错误时的回调
-*  @param {Boolean} ajaxOnly 可选，默认为false当为true时只使用ajax调取数据
-*   @param {Boolean} scope 可选，设定回调函数this指向的对象
-*   @param {Function} onAbort 可选，但取消时会调用的函数
-*/
-function excute(onComplete, onError, ajaxOnly, scope, onAbort) {
-
-  var params = _.clone(this.getParam() || {});
-
-  //验证错误码，并且设置新的auth
-  this.pushValidates(function(data) {
-    var curhead = this.head.get();
-    //兼容soa2.0 和 restful api
-    var rsphead = this._getResponseHead(data);
-    /* if (this.contentType !== AbstractModel.CONTENT_TYPE_JSONP && this.usehead && rsphead.auth && rsphead.auth !== curhead.auth) {
-         this.head.setAuth(rsphead.auth);
-     }*/
-    return rsphead.success;
-    //        var head = data.head;
-    //        if (this.contentType !== AbstractModel.CONTENT_TYPE_JSONP && this.usehead && head.auth && head.auth !== curhead.auth) {
-    //          this.head.setAuth(head.auth);
-    //        }
-    //        if (head && head.errcode === 0) {
-    //          return true;
-    //        } else {
-    //          return false;
-    //        }
-
-
-
-  });
-
-  // @description 业务相关，获得localstorage的tag
-  var tag = this.getTag();
-  // @description 业务相关，从localstorage中获取上次请求的数据缓存
-  var cache = this.result && this.result.get(tag);
-
-  if (!cache || this.ajaxOnly || ajaxOnly) {
-
-    if (this.method.toLowerCase() !== 'get' && this.usehead && this.contentType !== AbstractModel.CONTENT_TYPE_JSONP) {
-      //          this.setParam('head', this.head.get())
-      params.head = this.head.get();
-      params.head.time = (new Date()).getTime();
-    } else if (this.method.toLowerCase() !== 'get' && !this.usehead && this.contentType !== AbstractModel.CONTENT_TYPE_JSONP) {
-      if (this.headinfo) {
-        //            this.setParam('head', this.headinfo);
-        params.head = this.headinfo;
-
-      }
-    }
-
-    this.onBeforeCompleteCallback = function(datamodel) {
-      if (this.result instanceof AbstractStore) {
-        //soa 数据量大,为精简locastorage,去掉ResponseStatus部分 shbzhang 2014.4.17
-        try {
-          //              if(datamodel.ResponseStatus){
-          //                delete datamodel.ResponseStatus;
-          //              }
-        } catch (e) {
-
-        }
-        this.result.set(datamodel, tag);
-      }
-    }
-    this.execute(onComplete, onError, scope, onAbort, params)
-
-  } else {
-    if (typeof onComplete === 'function') {
-      onComplete.call(scope || this, cache);
-    }
-  }
-
-}
-</code></pre>
-</article></section></slide>
-<slide class="slide"><section class="slide-wrapper"><article>
-<h2>execute函数</h2>
-<pre><code class="javascript code_container_h500">
-/**
+<h2><code>execute</code>函数</h2>
+<p>执行<code>ajax</code>请求的函数</p>
+<pre class="code_container_h500">
+<code class="javascript">/**
  * 取model数据
  * @param {Function} onComplete 取完的回调函
  * 传入的第一个参数为model的数第二个数据为元数据，元数据为ajax下发时的ServerCode,Message等数
@@ -405,8 +319,125 @@ function execute(onComplete, onError, scope, onAbort, params) {
     // @description 默认post请求
     return this.ajax = cAjax.post(url, params, __onComplete, __onError);
   }
-},
-</code></pre>
+}
+</code>
+</pre>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><code>excute</code>函数</h2>
+<p>对<code>execute</code>的封装</p>
+<pre class="code_container_h500">
+<code class="javascript">/**
+*  取model数据
+*  @param {Function} onComplete 取完的回调函
+*  传入的第一个参数为model的数第二个数据为元数据，元数据为ajax下发时的ServerCode,Message等数
+*  @param {Function} onError 发生错误时的回调
+*  @param {Boolean} ajaxOnly 可选，默认为false当为true时只使用ajax调取数据
+*   @param {Boolean} scope 可选，设定回调函数this指向的对象
+*   @param {Function} onAbort 可选，但取消时会调用的函数
+*/
+function excute(onComplete, onError, ajaxOnly, scope, onAbort) {
+
+  var params = _.clone(this.getParam() || {});
+
+  //验证错误码，并且设置新的auth
+  this.pushValidates(function(data) {
+    var curhead = this.head.get();
+    //兼容soa2.0 和 restful api
+    var rsphead = this._getResponseHead(data);
+    /* if (this.contentType !== AbstractModel.CONTENT_TYPE_JSONP && this.usehead && rsphead.auth && rsphead.auth !== curhead.auth) {
+         this.head.setAuth(rsphead.auth);
+     }*/
+    return rsphead.success;
+    //        var head = data.head;
+    //        if (this.contentType !== AbstractModel.CONTENT_TYPE_JSONP && this.usehead && head.auth && head.auth !== curhead.auth) {
+    //          this.head.setAuth(head.auth);
+    //        }
+    //        if (head && head.errcode === 0) {
+    //          return true;
+    //        } else {
+    //          return false;
+    //        }
+
+
+
+  });
+
+  // @description 业务相关，获得localstorage的tag
+  var tag = this.getTag();
+  // @description 业务相关，从localstorage中获取上次请求的数据缓存
+  var cache = this.result && this.result.get(tag);
+
+  if (!cache || this.ajaxOnly || ajaxOnly) {
+
+    if (this.method.toLowerCase() !== 'get' && this.usehead && this.contentType !== AbstractModel.CONTENT_TYPE_JSONP) {
+      //          this.setParam('head', this.head.get())
+      params.head = this.head.get();
+      params.head.time = (new Date()).getTime();
+    } else if (this.method.toLowerCase() !== 'get' && !this.usehead && this.contentType !== AbstractModel.CONTENT_TYPE_JSONP) {
+      if (this.headinfo) {
+        //            this.setParam('head', this.headinfo);
+        params.head = this.headinfo;
+
+      }
+    }
+
+    this.onBeforeCompleteCallback = function(datamodel) {
+      if (this.result instanceof AbstractStore) {
+        //soa 数据量大,为精简locastorage,去掉ResponseStatus部分 shbzhang 2014.4.17
+        try {
+          //              if(datamodel.ResponseStatus){
+          //                delete datamodel.ResponseStatus;
+          //              }
+        } catch (e) {
+
+        }
+        this.result.set(datamodel, tag);
+      }
+    }
+    this.execute(onComplete, onError, scope, onAbort, params)
+
+  } else {
+    if (typeof onComplete === 'function') {
+      onComplete.call(scope || this, cache);
+    }
+  }
+
+}
+</code>
+</pre>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>使用方法</h1>
+<pre>
+<code class="javascript">_ret.CustomStore = function(key, lifeTime) { //自定义
+    return new cb.Class(_base, {
+        __propertys__: function() {
+            this.key = key;
+            this.lifeTime = lifeTime;
+        },
+        initialize: function($super, options) {
+            $super(options)
+        }
+    })
+}
+</code>
+</pre>
+
+<pre>
+<code class="javascript">_ret.TestStore = _ret.CustomStore("MALL_LIZARD_STORE_TEST", "1D");
+</code>
+</pre>
+
+<pre>
+<code class="javascript">_ret.getLocationList = new cBase.Class(_GetWayModel, {
+    __propertys__: function() {
+        this.url = 'GetCountrySubSiteInfoListData';
+        this.result = Store.SubSiteListStore.getInstance();
+    }
+})
+</code>
+</pre>
 </article></section></slide>
         <slide class="slide thank-you-slide segue nobackground">
             <article class="flexbox vleft auto-fadein">
