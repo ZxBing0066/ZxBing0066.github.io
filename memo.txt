@@ -1,3 +1,0 @@
-ST插件:
-	DocBlockr
-	Emmet
