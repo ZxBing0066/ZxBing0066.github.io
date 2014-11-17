@@ -19,7 +19,7 @@
     <slides id="container">
         <slide class="slide" data-transition="zoomin"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>Lizard 分享</h1>
-<h2><code>Lizard</code> 中的<code>cModel</code>&amp;<code>cStore</code></h2>
+<h2><code>Lizard</code> 中的<em><code>cModel</code></em>&amp;<em><code>cStore</code></em></h2>
 <p><small>演讲者: 王兵兵</small></p>
 <footer><small>Power by <a href="https://github.com/ksky521/nodePPT" target="_blank">nodeppt</a></small></footer>
 </article></section></slide>
@@ -31,7 +31,7 @@
 </article></section></slide>
 <slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
 <h2>cModel中的一些基本参数</h2>
-<pre class="code_container_h500">
+<pre class="code_container_h500 moveIn">
 <code class="javascript">/**
 * {Boolean} 可覆盖，提交参数是否加入head
 */
@@ -62,7 +62,7 @@ this.protocol = "http";
 </article></section></slide>
 <slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
 <h2>cModel中的一些常用方法</h2>
-<pre class="code_container_h500">
+<pre class="code_container_h500 moveIn">
 <code class="javascript">setHead: function(head) {
   if (!head instanceof AbstractStore) {
     throw 'Set head is not a store';
@@ -144,57 +144,58 @@ excute: function(onComplete, onError, ajaxOnly, scope, onAbort) {
 </pre>
 </article></section></slide>
 <slide class="slide" data-transition="circle"><section class="slide-wrapper"><article>
-<h2>继承cModel</h2>
+<h2>使用cModel</h2>
 <h3>定义一个新的<code>model</code>类</h3>
-<pre class="code_container_h">
+<pre class="code_container_h moveIn">
 <code class="javascript">define(["cModel"], function(cModel) {
 })
 </code>
 </pre>
 
 <h3>继承&amp;扩展<code>cModel</code></h3>
-<pre class="code_container_h300">
+<pre class="code_container_h300 moveIn">
 <code class="javascript">var _GetWayModel = new cBase.Class(cModel, {
-    __propertys__: function() {
-        var urlinfo = {
-            test: {
-                domain: 'gateway.m.fws.qa.nt.ctripcorp.com',
-                path: 'restapi/soa2/10419/json/'
-            },
-            pro: {
-                domain: 'm.ctrip.com',
-                path: 'restapi/soa2/10419/json/'
-            }
-        };
-        this.baseurl = getBaseUrl(urlinfo);
-        this.param = {};
-    },
-    initialize: function($super, options) {
-        $super(options);
-    },
-    /**
-     * 重写_buildurl函数
-     * @return {String} 构建后的url
-     */
-    _buildurl: function() {
-        return this.protocol + '://' + this.baseurl.domain + '/' + this.baseurl.path + (typeof this.url === 'function' ? this.url() : this.url) + util.paramStringify(this.param);
-    },
-    /**
-     * 重写excute,因为经常需要同时在success和error函数里写hideloading操作,所以添加onalways
-     * @param  {Fun} onsuccess 执行成功的操作
-     * @param  {Fun} onerror   执行失败的操作
-     * @param  {Fun} onalways  无论成功与否都执行的
-     * @param  {Obj} self      上下文
-     */
-    mallExcute: function(onsuccess, onerror, onalways, self) {
-        this.excute(function(json) {
-            onalways && onalways();
-            onsuccess && onsuccess(json);
-        }, function(error) {
-            onalways && onalways();
-            onerror && onerror(error);
-        }, false, self);
-    }
+  __propertys__: function() {
+    <!-- 用于生成url -->
+    var urlinfo = {
+      test: {
+        domain: 'gateway.m.fws.qa.nt.ctripcorp.com',
+        path: 'restapi/soa2/10419/json/'
+      },
+      pro: {
+        domain: 'm.ctrip.com',
+        path: 'restapi/soa2/10419/json/'
+      }
+    };
+    this.baseurl = getBaseUrl(urlinfo);
+    this.param = {};
+  },
+  initialize: function($super, options) {
+    $super(options);
+  },
+  /**
+   * 重写_buildurl函数
+   * @return {String} 构建后的url
+   */
+  _buildurl: function() {
+    return this.protocol + '://' + this.baseurl.domain + '/' + this.baseurl.path + (typeof this.url === 'function' ? this.url() : this.url) + util.paramStringify(this.param);
+  },
+  /**
+   * 重写excute,因为经常需要同时在success和error函数里写hideloading操作,所以添加onalways
+   * @param  {Fun} onsuccess 执行成功的操作
+   * @param  {Fun} onerror   执行失败的操作
+   * @param  {Fun} onalways  无论成功与否都执行的
+   * @param  {Obj} self      上下文
+   */
+  mallExcute: function(onsuccess, onerror, onalways, self) {
+    this.excute(function(json) {
+      onalways && onalways();
+      onsuccess && onsuccess(json);
+    }, function(error) {
+      onalways && onalways();
+      onerror && onerror(error);
+    }, false, self);
+  }
 });
 </code>
 </pre>
@@ -214,21 +215,104 @@ excute: function(onComplete, onError, ajaxOnly, scope, onAbort) {
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2><code>cStore</code>中的一些基本参数</h2>
-
+<pre class="code_container_h500 zoomIn">
+<code class="javascript">
+this.key = this.NULL;
+/**
+ * @member lifeTime
+ * @type {String}
+ * @description 数据存活时间, 参数传递格式为“时间+时间单位",如30M
+ * 时间单位有D:day,H:hour,M:minutes,S:secend,
+ * 如过不传递时间单位,默认时间单位为M
+ */
+this.lifeTime = '30M';
+</code>
+</pre>
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2><code>cStore</code>中的一些常用方法</h2>
+<pre class="code_container_h500 zoomIn">
+<code class="javascript">set: function (value, tag, oldVal) {
+},
+setLifeTime: function (lifeTime, override) {
+},
+setAttr: function (attrName, attrVal, tag) {
+},
+get: function (tag, oldFlag) {
+},
+getAttr: function (attrName, tag) {
+},
+getTag: function () {
+},
+remove: function () {
+},
+removeAttr: function (attrName) {
+}
+</code>
+</pre>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>使用<code>cStroe</code></h2>
+<h3>定义一个新的<code>store</code>类</h3>
+<pre class="code_container_h zoomIn">
+<code class="javascript">define(["cStore"], function(cStore) {
+})
+</code>
+</pre>
 
+<h3>继承&amp;扩展<code>cStore</code></h3>
+<p>简单用法:</p>
+<pre class="code_container_h200 zoomIn">
+<code class="javascript">_ret.CustomStore = function(key, lifeTime) { //自定义
+  return new cBase.Class(cStore, {
+    __propertys__: function() {
+      this.key = key;
+      this.lifeTime = lifeTime;
+    },
+    initialize: function($super, options) {
+      $super(options)
+    }
+  })
+};
+_ret.ItemBaseInfoStore = _ret.CustomStore("MALL_ITEM_BASE_INFO", "1D");
+</code>
+</pre>
+
+<p>扩展用法</p>
+<pre class="code_container_h200 zoomIn">
+<code class="javascript">_ret.LocalShoppingCartStore = new cb.Class(_base, {
+  __propertys__: function() {
+    this.key = "MALL_LOCAL_SHOPPING_CART";
+    this.lifeTime = "2D";
+  },
+  initialize: function($super, options) {
+    $super(options)
+  },
+  getNum: function(siteId) {
+    var num = 0,
+      items = this.getItems(siteId);
+    if (!items) {
+      return 0;
+    }
+    for (var i = 0; i < items.length; i++) {
+      num += items[i].Quantity;
+    };
+    return num;
+  }
+})
+</code>
+</pre>
 </article></section></slide>
 <slide class="slide" data-transition="horizontal3d"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>cStore+cModel</h1>
 <p>使用<code>cStore</code>来实现<code>cModel</code>的接口缓存</p>
+<p>将接口返回的数据经过处理后放入<code>localStorage</code>中实现接口缓存,减少重复请求次数</p>
 
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2><code>execute</code>函数</h2>
 <p>执行<code>ajax</code>请求的函数</p>
-<pre class="code_container_h500">
+<pre class="code_container_h500 fadeIn">
 <code class="javascript">/**
  * 取model数据
  * @param {Function} onComplete 取完的回调函
@@ -326,7 +410,8 @@ function execute(onComplete, onError, scope, onAbort, params) {
 <slide class="slide"><section class="slide-wrapper"><article>
 <h2><code>excute</code>函数</h2>
 <p>对<code>execute</code>的封装</p>
-<pre class="code_container_h500">
+<p>将head信息添加到request中,并添加了接口缓存以及缓存数据tag判断等功能</p>
+<pre class="code_container_h500 fadeIn">
 <code class="javascript">/**
 *  取model数据
 *  @param {Function} onComplete 取完的回调函
@@ -409,33 +494,27 @@ function excute(onComplete, onError, ajaxOnly, scope, onAbort) {
 </article></section></slide>
 <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
 <h1>使用方法</h1>
-<pre>
-<code class="javascript">_ret.CustomStore = function(key, lifeTime) { //自定义
-    return new cb.Class(_base, {
-        __propertys__: function() {
-            this.key = key;
-            this.lifeTime = lifeTime;
-        },
-        initialize: function($super, options) {
-            $super(options)
-        }
-    })
-}
-</code>
-</pre>
-
-<pre>
+<p>定义<code>store</code></p>
+<pre class="code_container_h fadeIn">
 <code class="javascript">_ret.TestStore = _ret.CustomStore("MALL_LIZARD_STORE_TEST", "1D");
 </code>
 </pre>
 
-<pre>
+<p>定义<code>model</code></p>
+<pre class="code_container_h fadeIn">
 <code class="javascript">_ret.getLocationList = new cBase.Class(_GetWayModel, {
-    __propertys__: function() {
-        this.url = 'GetCountrySubSiteInfoListData';
-        this.result = Store.SubSiteListStore.getInstance();
-    }
+  __propertys__: function() {
+    this.url = 'GetCountrySubSiteInfoListData';
+    this.result = Store.TestStore.getInstance();
+  }
 })
+</code>
+</pre>
+
+<p>使用</p>
+<pre class="code_container_h fadeIn">
+<code class="javascript">getLocationListModel.setParam(request);
+getLocationListModel.excute();
 </code>
 </pre>
 </article></section></slide>
