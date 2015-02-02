@@ -1,0 +1,33 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html, body {
+	height: 100%;
+}
+.container {
+	width: 100%;
+	height: 100%;
+	background: #eee;
+	border: 1px solid #ccc;
+}
+.container .drugable {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	background: #15c;
+	text-align: center;
+	line-height: 100px;
+	color: #849;
+	border: 1px solid #432;
+}
+.container .drugable .tip {
+	-webkit-user-select: none;
+	cursor: all-scroll;
+	display: block;
+	width: 80px;
+	margin: 30px auto;
+	line-height: 20px;
+	font-size: 15px;
+	text-align: center;
+}
