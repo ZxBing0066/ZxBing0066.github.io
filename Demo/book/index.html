@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>book</title>
+</head>
+<body>
+	<style type="text/css">
+	.book, .page {
+		width: 500px;
+		height: 700px;
+		margin: 50px auto;
+	}
+	.page.animate {
+		background: #000;
+		z-index: 1;
+		-webkit-transform-origin: 0px 50% 0px;
+		-webkit-animation-name: book;
+		-webkit-animation-duration: 1200ms;
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-direction: alternate;
+		animation-name: book;
+		animation-duration: 1200ms;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+	}
+	.page {
+		background: #CCC;
+		position: absolute;
+	}
+	@-webkit-keyframes book {
+		0% {
+			-webkit-transform: perspective(3000px) rotateX(0deg) rotateZ(0deg) translateX(0px) skewX(0deg);
+		}
+		100% {
+			-webkit-transform: perspective(3000px) rotateX(0deg) rotateY(-90deg) rotateZ(0deg) translateX(0px) skewX(0deg);
+		}
+	}
+	@keyframes book {
+		0% {
+			-webkit-transform: perspective(3000px) rotateX(0deg) rotateZ(0deg) translateX(0px) skewX(0deg);
+		}
+		100% {
+			-webkit-transform: perspective(3000px) rotateX(0deg) rotateY(-90deg) rotateZ(0deg) translateX(0px) skewX(0deg);
+		}
+	}
+	}
+	</style>
+	<div class="book">
+		<div class="page animate"></div>
+		<div class="page"></div>
+	</div>
+</body>
+</html>
