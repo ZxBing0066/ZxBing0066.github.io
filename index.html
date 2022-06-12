@@ -1,70 +1,121 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scaleable=0">
-        <title>ZxWebSite</title>
-        <link rel="shortcut icon" href="./favicon.ico"/>
-        <link rel="stylesheet" href="./css/pure-min.css">
-        <link rel="stylesheet" href="./css/side-menu.css">
-        <link rel="stylesheet" href="./css/my.css">
-    </head>
-    <body>
-        <div id="layout">
-            <!-- Menu toggle -->
-            <a href="#menu" id="menuLink" class="menu-link">
-            <!-- Hamburger icon -->
-            <span></span>
-            </a>
-            <div id="menu">
-                <div class="pure-menu pure-menu-open">
-                    <a class="pure-menu-heading pure-menu-selected" href="#">ZxBing</a>
-                    <ul>
-                        <li><a href="./Game/">游戏</a></li>
-                        <li><a href="./Interesting/">小玩意</a></li>
-                        <li><a href="./Other/">其它项目</a></li>
-                        <li class="menu-item-divided"><a href="./Blog/">博客</a></li>
-                        <li><a href="./Blog/about/">关于</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div id="main">
-                <div class="header">
-                    <h1>ZxBing的小站</h1>
-                </div>
-                <div class="content">
-                    <h2 class="content-subhead">游戏</h2>
-                    <ul>
-                        <li>
-                            <b><a href="./Game/2048/">A clone of 2048</a></b>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嘿嘿的小站</title>
+    <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./public/index.css">
+    <base target="_blank">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="blog"><a href="https://blog.heyfe.org"><img src="./public/blog.svg" alt="Blog"></a></li>
+                <li class="github"><a href="https://github.com/ZxBing0066"><img src="./public/github.png"
+                            alt="github"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="personal">
+            <h3>个人作品集</h3>
+            <ul>
+                <li>
+                    <a href="https://chinese-colors.heyfe.org/">中国色彩 · 一键配色</a>
+                    <time class="ctime">2021</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://tumblr.heyfe.org/">tumblr 多媒体下载站</a>
+                    <time class="ctime">2018</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a
+                        href="https://chrome.google.com/webstore/detail/gfwlist-editor/bmiphmkhfkmaacdjcokdfjllbnklnmlf?hl=zh-CN">Chrome
+                        GFW 文件编辑器扩展</a>
+                    <time class="ctime">2016</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="/Game/2048/">2048</a>
+                    <time class="ctime">2014</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="/Game/td/">塔防小游戏</a>
+                    <time class="ctime">2014</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="/Game/anqi/">暗棋</a>
+                    <time class="ctime">2013</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="/Game/block/">俄罗斯方块</a>
+                    <time class="ctime">2013</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="/Game/snake/">贪吃蛇</a>
+                    <time class="ctime">2013</time>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="/Game/slg/">SLG 小游戏 - 未完成</a>
+                    <time class="ctime">2012</time>
+                    <p></p>
+                </li>
+            </ul>
         </div>
-        <!-- jQuery文件 -->
-        <script src="./libs/jquery-1.11.1.js"></script>
-        <script src="./js/ui.js"></script>
-        <!-- ads -->
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- 自适应 -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1906392499705020"
-             data-ad-slot="3304980199"
-             data-ad-format="auto"></ins>
-        <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- analytics -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-82404272-1', 'auto');
-          ga('send', 'pageview');
-        </script>
-    </body>
+        <div class="line"></div>
+        <div class="open-source">
+            <h3>开源项目集</h3>
+            <ul>
+                <li>
+                    <a href="https://www.npmjs.com/package/rvpress">React & Vite 静态站点生成器</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://github.com/ZxBing0066/zlib">工具库</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://github.com/ZxBing0066/recodo">React 组件文档套件</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://github.com/ZxBing0066/z-sandbox">JS 沙箱实现</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://github.com/rapiop/rapiop">微前端库</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://rapiop.github.io/mod/#/">模块加载器</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://github.com/z-react-components/calendar">React 日历实现</a>
+                    <p></p>
+                </li>
+                <li>
+                    <a href="https://github.com/ZxBing0066?tab=repositories">More...</a>
+                    <p></p>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        © 2013-present ZxBing0066. All Rights Reserved.
+    </footer>
+</body>
+
 </html>

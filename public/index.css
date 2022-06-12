@@ -1,0 +1,108 @@
+html,
+body {
+    height: 100%;
+}
+body {
+    min-width: 70rem;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    background: #fff;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    position: sticky;
+    top: 0;
+}
+
+header nav ul {
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog,
+.github {
+    margin: 1rem 1.5rem;
+}
+
+.blog img,
+.github img {
+    width: 2rem;
+    height: 2rem;
+    will-change: transform;
+    transition: all 0.3s;
+}
+.blog img:hover,
+.github img:hover {
+    transform: scale(1.2);
+}
+
+main {
+    padding: 0.5rem;
+    width: 60rem;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+main li {
+    list-style-type: none;
+    text-align: center;
+}
+main ul {
+    padding: 0;
+}
+
+main h3 {
+    text-align: center;
+}
+time {
+    display: none;
+}
+main a {
+    text-decoration: none;
+}
+main a,
+main a:visited {
+    color: #2474b5;
+}
+
+.line {
+    width: 1px;
+    background: #ccc;
+    margin: 0 5rem;
+}
+
+.personal,
+.open-source {
+    flex: 1;
+}
+
+@keyframes linkHover {
+    0%,
+    end {
+        text-shadow: -1.5px -1.5px 0 #0ff, 1.5px 1.5px 0 #f00;
+    }
+    25% {
+        text-shadow: 1.5px 1.5px 0 #0ff, -1.5px -1.5px 0 #f00;
+    }
+    50% {
+        text-shadow: 1.5px -1.5px 0 #0ff, 1.5px -1.5px 0 #f00;
+    }
+    75% {
+        text-shadow: -1.5px 1.5px 0 #0ff, -1.5px 1.5px 0 #f00;
+    }
+}
+
+footer {
+    background: #fff;
+    padding: 1rem;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    color: #666;
+}
