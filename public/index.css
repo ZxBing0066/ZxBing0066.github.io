@@ -66,10 +66,31 @@ time {
 }
 main a {
     text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding: 0 0.5em;
 }
 main a,
 main a:visited {
     color: #2474b5;
+}
+main a::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: rgba(36, 116, 181, 0);
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    margin: 0 auto;
+    will-change: width;
+    transition: width 0.3s ease-in-out, background-color 0.2s ease-in-out;
+}
+main a:hover::before {
+    width: 100%;
+    background-color: #2474b5;
 }
 
 .line {
